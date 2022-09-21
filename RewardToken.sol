@@ -2,22 +2,20 @@
 
 pragma solidity ^0.8.4;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol;
 
+contract GameItems is ERC1155 {
+    uint256 public constant GOLD = 0;
+    uint256 public constant SILVER = 1;
+    uint256 public constant THORS_HAMMER = 2;
+    uint256 public constant SWORD = 3;
+    uint256 public constant SHIELD = 4;
 
-// Simple ERC721 Smart Contract made for Rewards.
-
-contract RewardToken is ERC721, Ownable{
-
-uint256 nextId = 1;
-
-        constructor(string memory name, string memory symbol) ERC721(name, symbol){
-
-    }
-
-    function mint() public onlyOwner {
-        _safeMint(msg.sender, nextId);
-        nextId++;
+    constructor() public ERC1155("https://game.example/api/item/{id}.json") {
+        _mint(msg.sender, GOLD, 10**18, "");
+        _mint(msg.sender, SILVER, 10**27, "");
+        _mint(msg.sender, THORS_HAMMER, 1, "");
+        _mint(msg.sender, SWORD, 10**9, "");
+        _mint(msg.sender, SHIELD, 10**9, "");
     }
 }
